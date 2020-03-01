@@ -26,7 +26,7 @@ def welcome():
     
     Set the game properties using:
     - the maximal number that will show up;
-    - the game mode (d-x for decimal to hexa, x-d for the opposite direction, or both)
+    - the game mode (d2x for decimal to hexa, x2d for the opposite direction, or both)
     """)
 
 
