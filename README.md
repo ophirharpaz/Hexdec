@@ -1,7 +1,7 @@
 # Hexdec
 CLI game for hexa-decimal practice
 
-```shell
+```
 C:\Users\ophir.harpaz\Desktop\Hexdec>python hexdec.py
 
      __________
