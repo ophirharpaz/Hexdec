@@ -8,6 +8,7 @@ from random import choice, randint
 DEFAULT_UPPER_LIMIT = 0x100
 DEC, HEX, MIX = 'd2x', 'x2d', 'both'
 AVERAGE_TIME = 0
+ITERATIONS = 0
 
 
 def welcome():
@@ -40,8 +41,7 @@ def welcome():
               default=HEX)
 def play(max_number, game_mode):
     signal.signal(signal.SIGINT, signal_handler)
-    global AVERAGE_TIME  # I use a global so that signal_handler can access the value from all stack-frames
-    iterations = 0
+    global AVERAGE_TIME, ITERATIONS # I use globals so that signal_handler can access the values from all stack-frames
     click.echo('To stop the game, click Ctrl+C')
 
     # Game loop
@@ -52,8 +52,8 @@ def play(max_number, game_mode):
             user_succeeded, response_time = play_iteration(max_number, hex_to_dec=False)
         else:
             user_succeeded, response_time = play_iteration(max_number, hex_to_dec=True)
-        iterations += 1
-        AVERAGE_TIME = (AVERAGE_TIME * (iterations - 1) + response_time) / iterations
+        ITERATIONS += 1
+        AVERAGE_TIME = (AVERAGE_TIME * (ITERATIONS - 1) + response_time) / ITERATIONS
         if not user_succeeded:
             click.echo('Oops, you got that last one wrong...')
             say_goodbye()
@@ -75,7 +75,9 @@ def play_iteration(top, hex_to_dec):
 
 
 def say_goodbye():
-    click.echo('\nYour average response time is {0:.3f} seconds. Come back again! :)'.format(AVERAGE_TIME))
+    click.echo('\nYou played {0} iterations '
+               'and your average response time was {1:.3f} seconds. '
+               'Come back again! :)'.format(ITERATIONS, AVERAGE_TIME))
     sys.exit(0)
 
 
