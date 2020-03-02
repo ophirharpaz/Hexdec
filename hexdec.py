@@ -57,6 +57,7 @@ def play(max_number, game_mode):
         if not user_succeeded:
             click.echo('Oops, you got that last one wrong...')
             say_goodbye()
+            return
 
 
 def play_round(max_number, hex_to_dec):
