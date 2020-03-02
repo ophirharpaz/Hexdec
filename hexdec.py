@@ -90,5 +90,8 @@ def signal_handler(sig, frame):
 
 
 if __name__ == '__main__':
+    if sys.version_info.major < 3:
+        print('Use Python3 and later :)')
+        exit(0)
     welcome()
     play()
