@@ -42,16 +42,16 @@ def welcome():
 def play(max_number, game_mode):
     signal.signal(signal.SIGINT, signal_handler)
     global AVERAGE_TIME, ITERATIONS  # I use globals so that signal_handler can access the values from all stack-frames
-    click.echo('To stop the game, click Ctrl+C')
+    click.echo('To stop the game, type Ctrl+C')
 
     # Game loop
     while True:
         if MIX == game_mode:
-            user_succeeded, response_time = play_iteration(max_number, hex_to_dec=choice([True, False]))
+            user_succeeded, response_time = play_round(max_number, hex_to_dec=choice([True, False]))
         elif DEC == game_mode:
-            user_succeeded, response_time = play_iteration(max_number, hex_to_dec=False)
+            user_succeeded, response_time = play_round(max_number, hex_to_dec=False)
         else:
-            user_succeeded, response_time = play_iteration(max_number, hex_to_dec=True)
+            user_succeeded, response_time = play_round(max_number, hex_to_dec=True)
         ITERATIONS += 1
         AVERAGE_TIME = (AVERAGE_TIME * (ITERATIONS - 1) + response_time) / ITERATIONS
         if not user_succeeded:
@@ -59,8 +59,8 @@ def play(max_number, game_mode):
             say_goodbye()
 
 
-def play_iteration(top, hex_to_dec):
-    n = randint(0, top)
+def play_round(max_number, hex_to_dec):
+    n = randint(0, max_number)
     n_for_display = hex(n) if hex_to_dec else n
     t = time.time()
     while True:
@@ -78,7 +78,6 @@ def say_goodbye():
     click.echo('\nYou played {0} iterations '
                'and your average response time was {1:.3f} seconds. '
                'Come back again! :)'.format(ITERATIONS, AVERAGE_TIME))
-    sys.exit(0)
 
 
 def signal_handler(sig, frame):
@@ -92,6 +91,6 @@ def signal_handler(sig, frame):
 if __name__ == '__main__':
     if sys.version_info.major < 3:
         print('Use Python3 and later :)')
-        exit(0)
+        sys.exit(0)
     welcome()
     play()
