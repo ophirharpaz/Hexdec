@@ -41,7 +41,7 @@ def welcome():
               default=HEX)
 def play(max_number, game_mode):
     signal.signal(signal.SIGINT, signal_handler)
-    global AVERAGE_TIME, ITERATIONS # I use globals so that signal_handler can access the values from all stack-frames
+    global AVERAGE_TIME, ITERATIONS  # I use globals so that signal_handler can access the values from all stack-frames
     click.echo('To stop the game, click Ctrl+C')
 
     # Game loop
